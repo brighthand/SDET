@@ -1,0 +1,114 @@
+[
+  {
+    "line": 1,
+    "elements": [
+      {
+        "start_timestamp": "2020-10-20T18:11:26.612Z",
+        "line": 3,
+        "name": "Verify if place is being successfully added using AddPlaceAPI",
+        "description": "",
+        "id": "validating-place-api-s;verify-if-place-is-being-successfully-added-using-addplaceapi",
+        "type": "scenario",
+        "keyword": "Scenario",
+        "steps": [
+          {
+            "result": {
+              "duration": 4021000,
+              "status": "passed"
+            },
+            "line": 4,
+            "name": "Add Place Payload",
+            "match": {
+              "location": "stepDefinitions.steps.add_place_payload()"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 998500,
+              "status": "passed"
+            },
+            "line": 5,
+            "name": "User calls \"AddPlaceAPI\" with post http request",
+            "match": {
+              "arguments": [
+                {
+                  "val": "\"AddPlaceAPI\"",
+                  "offset": 11
+                }
+              ],
+              "location": "stepDefinitions.steps.user_calls_with_post_http_request(java.lang.String)"
+            },
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "status": "passed"
+            },
+            "line": 6,
+            "name": "The API got sccuess with status code 200",
+            "match": {
+              "arguments": [
+                {
+                  "val": "200",
+                  "offset": 37
+                }
+              ],
+              "location": "stepDefinitions.steps.the_api_got_sccuess_with_status_code(java.lang.Integer)"
+            },
+            "keyword": "Then "
+          },
+          {
+            "result": {
+              "status": "passed"
+            },
+            "line": 7,
+            "name": "\"Status\" code in response body is \"OK\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "\"Status\"",
+                  "offset": 0
+                },
+                {
+                  "val": "\"OK\"",
+                  "offset": 34
+                }
+              ],
+              "location": "stepDefinitions.steps.code_in_response_body_is(java.lang.String,java.lang.String)"
+            },
+            "keyword": "And "
+          },
+          {
+            "result": {
+              "duration": 987800,
+              "status": "passed"
+            },
+            "line": 8,
+            "name": "\"scope\" code in response body is \"APP\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "\"scope\"",
+                  "offset": 0
+                },
+                {
+                  "val": "\"APP\"",
+                  "offset": 33
+                }
+              ],
+              "location": "stepDefinitions.steps.code_in_response_body_is(java.lang.String,java.lang.String)"
+            },
+            "keyword": "And "
+          }
+        ]
+      }
+    ],
+    "name": "Validating Place API\u0027s",
+    "description": "",
+    "id": "validating-place-api-s",
+    "keyword": "Feature",
+    "uri": "file:src/test/java/feature/placeFile.feature",
+    "tags": []
+  }
+]
