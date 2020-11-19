@@ -10,15 +10,28 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.RestAssured;
+import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
+import io.restassured.specification.ResponseSpecification;
 import junit.framework.Assert;
 import resources.Payload;
+import resources.TestDataBuilder;
+import resources.Utils2;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
-public class steps {
+import java.io.IOException;
+
+public class steps extends Utils2 {
 	//the base uri, spec builders and response objects are declared here for BDD
+	RequestSpecification res;
+	ResponseSpecification resspec;
+	Response response;
+	TestDataBuilder data = new TestDataBuilder();
 	
 		@Given("Add Place Payload")
 		public void add_place_payload() {
@@ -90,6 +103,42 @@ public class steps {
 			System.out.println("be something");
 			//throw new io.cucumber.java.PendingException();
 		}
+		
+		
+		// *** VERSION 2 ***
+		
+			@Given("Add Place")
+			public void add_place() throws IOException {
+				
+			    System.out.println("To add place");
+				  res = given().spec(requestSpecification())
+						  .body(data.AddPlacePayload());
+				  
+			}
+
+			@When("Request is sent")
+			public void request_is_sent() {
+				
+				resspec = new ResponseSpecBuilder().expectStatusCode(200).expectContentType(ContentType.JSON).build();
+				response = res.when().post("maps/api/place/add/json");
+			}
+			
+			@Then("The response is verified")
+			public void the_response_is_verified() {
+				String finalResult = response.then().log().all().assertThat().statusCode(200).body("scope", equalTo("APP"))
+		  		 .header("server", "Apache/2.4.18 (Ubuntu)") //all methods, chained in then(), after assertThat, are validations
+		  		 .extract().response().asString(); //extract everything into a string, for use with jsonPath objects.
+		  
+		  //parsing string response into jsonPath
+		  JsonPath js = new JsonPath(finalResult);
+		  String address = js.getString("address"); //retrieves value at the path specified (no parents in this example)
+		  												//this block can be offloaded to a seperate Class (lesson 23), and called as needed; left alone for clarity, here.
+		  
+		  System.out.println("address = " + address);
+			}
+
+
+
 
 
 
