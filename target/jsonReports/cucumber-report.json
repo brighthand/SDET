@@ -3,54 +3,54 @@
     "line": 1,
     "elements": [
       {
-        "start_timestamp": "2020-11-19T01:09:41.643Z",
-        "line": 12,
-        "name": "Add Place using more developed framework",
+        "start_timestamp": "2020-11-25T17:33:27.861Z",
+        "line": 18,
+        "name": "Retreive employee data",
         "description": "",
-        "id": "validating-place-api-s;add-place-using-more-developed-framework",
+        "id": "validating-place-api-s;retreive-employee-data",
         "type": "scenario",
         "keyword": "Scenario",
         "steps": [
           {
             "result": {
-              "duration": 2333250500,
+              "duration": 1667493000,
               "status": "passed"
             },
-            "line": 13,
-            "name": "Add Place",
+            "line": 19,
+            "name": "Retrieve Employee",
             "match": {
-              "location": "stepDefinitions.steps.add_place()"
+              "location": "stepDefinitions.steps.retrieve_employee()"
             },
             "keyword": "Given "
           },
           {
             "result": {
-              "duration": 3620370200,
+              "duration": 2149340800,
               "status": "passed"
             },
-            "line": 14,
-            "name": "Request is sent",
+            "line": 20,
+            "name": "User calls employee api with get request",
             "match": {
-              "location": "stepDefinitions.steps.request_is_sent()"
+              "location": "stepDefinitions.steps.user_calls_employee_api_with_get_request()"
             },
             "keyword": "When "
           },
           {
             "result": {
-              "duration": 1125340900,
+              "duration": 860001000,
               "status": "passed"
             },
-            "line": 15,
-            "name": "The response is verified",
+            "line": 21,
+            "name": "the information is verified",
             "match": {
-              "location": "stepDefinitions.steps.the_response_is_verified()"
+              "location": "stepDefinitions.steps.the_information_is_verified()"
             },
             "keyword": "Then "
           }
         ],
         "tags": [
           {
-            "name": "@version2"
+            "name": "@3rd"
           }
         ]
       }

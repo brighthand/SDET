@@ -108,12 +108,9 @@ public class steps extends Utils2 {
 		// *** VERSION 2 ***
 		
 			@Given("Add Place")
-			public void add_place() throws IOException {
-				
-			    System.out.println("To add place");
-				  res = given().spec(requestSpecification())
-						  .body(data.AddPlacePayload());
-				  
+			public void add_place() throws IOException {	
+				 res = given().spec(requestSpecification("baseUrl"))
+						  .body(data.AddPlacePayload());	  
 			}
 
 			@When("Request is sent")
@@ -136,6 +133,34 @@ public class steps extends Utils2 {
 		  
 		  System.out.println("address = " + address);
 			}
+			
+			
+			//**** 3rd SCENARIO ****
+			
+			@Given("Retrieve Employee")
+			public void retrieve_employee() throws IOException {
+				res = given().spec(requestSpecification("baseUrl2"));
+						//.queryParam("Id", 1);
+				}
+
+			@When("User calls employee api with get request")
+			public void user_calls_employee_api_with_get_request() throws IOException {
+				 response = res.when().get("employee/1");
+				}
+			
+			@Then("the information is verified")
+			public void the_information_is_verified() throws IOException {
+				 String endResult = response.then().log().all().assertThat().statusCode(200).body("data.employee_name", equalTo("Tiger Nixon"))
+						 .extract().response().asString();
+				 
+				 JsonPath js = new JsonPath(endResult);
+				 String empName = js.getString("data.employee_name");
+				 
+				 System.out.println("employee name: " + empName);
+				}
+
+
+
 
 
 

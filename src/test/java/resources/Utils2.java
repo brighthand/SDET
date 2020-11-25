@@ -20,11 +20,11 @@ public class Utils2 {
 	
 	public static RequestSpecification req;
 	
-	public RequestSpecification requestSpecification() throws IOException {
+	public RequestSpecification requestSpecification(String base) throws IOException {
 		if(req == null)
 		{
 			PrintStream log = new PrintStream(new FileOutputStream("logging.txt"));
-			req = new RequestSpecBuilder().setBaseUri(getGlobalValue("baseUrl")).addQueryParam("key", "qaclick123")
+			req = new RequestSpecBuilder().setBaseUri(getGlobalValue(base)).addQueryParam("key", "qaclick123")
 					.addFilter(RequestLoggingFilter.logRequestTo(log))
 					.addFilter(ResponseLoggingFilter.logResponseTo(log))
 				.setContentType(ContentType.JSON).build();
