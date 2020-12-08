@@ -19,3 +19,12 @@ Scenario: Retreive employee data
 Given Retrieve Employee
 When User calls employee api with get request
 Then the information is verified
+
+@singleSimple
+Scenario: Simple post request
+Given I do the thing
+When I use a data provider
+
+@nestedJSON
+Scenario: To test the nested json processes
+Given Print No of courses returned by API

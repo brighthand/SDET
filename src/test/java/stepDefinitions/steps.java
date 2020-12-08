@@ -5,6 +5,8 @@ import org.junit.BeforeClass;
 //import static org.junit.Assert.assertThat;
 
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -106,6 +108,7 @@ public class steps extends Utils2 {
 		
 		
 		// *** VERSION 2 ***
+		//ResponseSpecBuilder
 		
 			@Given("Add Place")
 			public void add_place() throws IOException {	
@@ -157,6 +160,115 @@ public class steps extends Utils2 {
 				 String empName = js.getString("data.employee_name");
 				 
 				 System.out.println("employee name: " + empName);
+				}
+
+			
+		//**** SINGLE SIMPLE POST *****
+			
+			@Given("I do the thing")
+			public void i_do_the_thing() {
+				    RestAssured.baseURI = "http://dummy.restapiexample.com/api/v1";
+				    
+				    String response2 = given().header("Content-Type", "application/json")
+				    		 .body("{\r\n" +
+				    			  " \"name\": \"test\", \r\n" +
+				    			  " \"salary\": \"123\", \r\n" +
+				    			  " \"age\": \"23\" \r\n" +
+								  "}")
+				    		 
+				    		.when().post("create")
+				    		.then().assertThat().statusCode(200).body("status", equalTo("success")).extract().response().asString();
+			}
+
+			@Test(dataProvider = "BooksData") //Section 7, lesson 36
+			@When("I use a data provider")
+			public void i_use_a_data_provider(String isbn,String aisle) {
+				    RestAssured.baseURI = "http://216.10.245.166";
+				    
+				    Response resp = given()
+				    		
+				    		.header("Content-Type","application/json")
+				    		.body(Payload.Addbook(isbn, aisle)) //method not present but variables parsed from dataProvider
+				    		.when()
+				    		.post("/Library/Addbook.php")
+				    		.then().assertThat().statusCode(200)
+				    		.extract().response();
+				    
+				    JsonPath js = ReusableMethods.rawToJson(resp);  //this method does not exist in this project
+				    
+				   String id = js.get("ID");
+				   System.out.println(id);
+				    
+				    
+				}
+			
+			@DataProvider(name="BooksData")
+			public Object[][] getData()
+			{
+				//array=collection of elements
+				
+				return new Object[][] {{"ojfwty","9363"},{"cwetee","4253"}, {"okmfet","533"} };
+			}
+
+
+
+
+			//**** NESTED JSON EXCERCISE ****
+		
+			@Given("Print No of courses returned by API")
+			public void print_no_of_courses_returned_by_api() {
+				
+				int priceSum = 0;
+				    
+				/* RestAssured.baseURI = "https://rahulshettyacademy.com";
+				given().queryParam("key", "qaclick123").header("Content-Type","application/json")
+				
+				.when()
+					.post("maps/api/place/add/json")
+				.then().assertThat().statusCode(200);
+				
+				*/
+				
+				
+				JsonPath js = new JsonPath(Payload.getBooks()); //the above code is replaced with this mock api resonse:
+						int count = js.getInt("course.size()");
+						
+					//1.) print number of courses
+					System.out.println("number of courses = " + count);
+					
+					//2.) print purchase amount
+					int purchaseAmount = js.getInt("dashboard.purchaseamount");
+					System.out.println(purchaseAmount);
+					
+					//3.) Print Title of the first course
+					String title = js.getString("courses[0].title");
+					System.out.println("first course title = " + title);
+					
+					//4.) Print All course titles and their respective Prices
+					for(int x = 0;x < count; x++)
+					{
+						System.out.println(js.getString("courses[" + x + "].title"));
+					}
+					
+					//5.) Print no of copies sold by RPA Course
+					for(int x = 0;x < count; x++)
+					{
+						System.out.println(js.getInt("courses[" + x + "].copies"));
+					}
+					
+					//6.)Verify if Sum of all Course prices matches with Purchase Amount
+					for(int x = 0;x < count; x++)
+					{
+						int currentPrice = js.getInt("courses[" + x + "].price");
+						System.out.println(currentPrice);
+						priceSum += currentPrice;
+					}
+					if(priceSum == purchaseAmount)
+					{
+						System.out.println("price Matches");
+					} else {
+						System.out.println("purchase amount does not match sum of all course prices");
+					}
 				}
 
 
